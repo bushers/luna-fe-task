@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { UserData } from '../hooks/useGetData'
-import { parseUkDate } from '../utils/utils'
 import { usePagination } from '../hooks/usePagination'
 import { Pagination } from './Pagination'
+import { Search } from './Search'
+import { parseUkDate } from '../utils/utils'
 
 type TableProps = {
   data: UserData[]
@@ -26,7 +27,7 @@ export type SortKey = keyof Pick<
   'date_of_birth' | 'salary' | 'industry' | 'id'
 >
 
-const sortData = (
+export const sortData = (
   data: UserData[],
   sortKey: SortKey,
   order: SortOrder
@@ -63,9 +64,27 @@ const sortData = (
   return sortedData
 }
 
+const filterDataBySearch = (data: UserData[], searchText: string) => {
+  if (searchText.length > 1) {
+    const lowerCaseSearch = searchText.toLowerCase().trim()
+
+    return data.filter((item) => {
+      return (
+        item.first_name?.toLowerCase().includes(lowerCaseSearch) ||
+        item.last_name?.toLowerCase().includes(lowerCaseSearch)
+      )
+    })
+  }
+  return data
+}
+
 const Table: React.FC<TableProps> = ({ data }) => {
   const [sortKey, setSortKey] = useState<SortKey>('id')
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
+
+  const [searchText, setSearchText] = useState('')
+
+  const [dataLength, setDataLength] = useState(data.length)
 
   const {
     activePage,
@@ -75,19 +94,24 @@ const Table: React.FC<TableProps> = ({ data }) => {
     itemsPerPage,
     setItemsPerPage,
     pageNumbersArr
-  } = usePagination(data.length)
+  } = usePagination(dataLength)
 
   const sortedData = useMemo(() => {
-    const _sorted = sortData(data, sortKey, sortOrder)
+    let _sorted = sortData(data, sortKey, sortOrder)
+    _sorted = filterDataBySearch(_sorted, searchText)
+
+    setDataLength(_sorted.length)
 
     const start = activePage * itemsPerPage - itemsPerPage
     const end = activePage * itemsPerPage
 
     return _sorted.slice(start, end)
-  }, [data, sortKey, sortOrder, itemsPerPage, activePage])
+  }, [data, sortKey, sortOrder, activePage, itemsPerPage, searchText])
 
   return (
     <div>
+      <h2>Table</h2>
+      <Search onChange={(e) => setSearchText(e)} />
       <table className="table-auto">
         <thead>
           <tr>
