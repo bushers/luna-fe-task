@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { UserData } from '../hooks/useGetData'
 import { parseUkDate } from '../utils/utils'
+import { usePagination } from '../hooks/usePagination'
+import { Pagination } from './Pagination'
 
 type TableProps = {
   data: UserData[]
@@ -65,11 +67,24 @@ const Table: React.FC<TableProps> = ({ data }) => {
   const [sortKey, setSortKey] = useState<SortKey>('id')
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc')
 
-  const sortedData = useMemo(() => {
-    const sorted = sortData(data, sortKey, sortOrder)
+  const {
+    activePage,
+    setActivePage,
+    nextPage,
+    previousPage,
+    itemsPerPage,
+    setItemsPerPage,
+    pageNumbersArr
+  } = usePagination(data.length)
 
-    return sorted
-  }, [data, sortKey, sortOrder])
+  const sortedData = useMemo(() => {
+    const _sorted = sortData(data, sortKey, sortOrder)
+
+    const start = activePage * itemsPerPage - itemsPerPage
+    const end = activePage * itemsPerPage
+
+    return _sorted.slice(start, end)
+  }, [data, sortKey, sortOrder, itemsPerPage, activePage])
 
   return (
     <div>
@@ -118,6 +133,16 @@ const Table: React.FC<TableProps> = ({ data }) => {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        nextPage={nextPage}
+        prevPage={previousPage}
+        activePage={activePage}
+        setPage={setActivePage}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        pageNumbersArr={pageNumbersArr}
+      />
     </div>
   )
 }
