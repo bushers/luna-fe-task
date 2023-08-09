@@ -3,6 +3,7 @@ import { UserData } from '../hooks/useGetData'
 import { SortKey, sortData } from './Table'
 import { BarChart } from './BarChart'
 import { Dropdown } from './Dropdown'
+import { AreaChart } from './AreaChart'
 
 type ChartDisplayProps = {
   data: UserData[]
@@ -32,7 +33,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({ data }) => {
         return <BarChart data={dataToShow} dataKey={dataTypeKey} />
       }
       case 'area': {
-        return <div>Area</div>
+        return <AreaChart data={dataToShow} dataKey={dataTypeKey} />
       }
       case 'line': {
         return <div>Line</div>
