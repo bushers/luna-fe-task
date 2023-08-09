@@ -1,3 +1,3 @@
-# vite React TypeScript tailwindcss starter
+# Vite React TypeScript Tailwindcss starter
 
-Template for vite, React + tailwindcss + TypeScript projects with some tools preconfigured.
+Run `npm i` then `npm run dev` to run the code
