@@ -3,6 +3,7 @@ import React from 'react'
 import Card from './components/Card'
 import Nav from './components/Nav'
 import { useGetData } from './hooks/useGetData'
+import { ChartDisplay } from './components/ChartDisplay'
 
 function Charts(): React.ReactNode {
   const { isLoading, error, data } = useGetData('/MOCK_DATA.json')
@@ -25,7 +26,11 @@ function Charts(): React.ReactNode {
 
       <main>
         <Card>
-          <h1 className="text-xl text-center">Charts</h1>
+          <div className="text-center">
+            <h1 className="text-xl">Charts</h1>
+
+            <ChartDisplay data={data} />
+          </div>
         </Card>
       </main>
     </div>
