@@ -4,6 +4,7 @@ import { SortKey, sortData } from './Table'
 import { BarChart } from './BarChart'
 import { Dropdown } from './Dropdown'
 import { AreaChart } from './AreaChart'
+import { LineChart } from './LineChart'
 
 type ChartDisplayProps = {
   data: UserData[]
@@ -36,7 +37,7 @@ const ChartDisplay: React.FC<ChartDisplayProps> = ({ data }) => {
         return <AreaChart data={dataToShow} dataKey={dataTypeKey} />
       }
       case 'line': {
-        return <div>Line</div>
+        return <LineChart data={dataToShow} dataKey={dataTypeKey} />
       }
       default: {
         return <BarChart data={dataToShow} dataKey={dataTypeKey} />
