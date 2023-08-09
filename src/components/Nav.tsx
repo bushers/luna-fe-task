@@ -5,11 +5,11 @@ const Nav: React.FC = () => {
   return (
     <header>
       <nav className="flex justify-center">
-        <Link to="/" className="text-purple-400 underline px-4 py-2">
-          Home
+        <Link to="/" className="text-purple-400 underline p-4 text-xl">
+          Table
         </Link>
-        <Link to="/about" className="text-purple-400 underline px-4 py-2">
-          About
+        <Link to="/charts" className="text-purple-400 underline p-4 text-xl">
+          Charts
         </Link>
       </nav>
     </header>

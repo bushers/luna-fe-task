@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 
 import './App.css'
 import App from './App'
-import About from './About'
+import Charts from './Charts'
 
 const queryClient = new QueryClient()
 
@@ -15,7 +15,7 @@ createRoot(document.getElementById('root') as HTMLElement).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/charts" element={<Charts />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
